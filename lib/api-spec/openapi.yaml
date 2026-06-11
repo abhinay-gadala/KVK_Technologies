@@ -1,15 +1,16 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: KVK Technologies API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: bookings
+    description: Booking operations
 paths:
   /healthz:
     get:
@@ -24,6 +25,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /bookings:
+    post:
+      operationId: createBooking
+      tags: [bookings]
+      summary: Create a new booking
+      description: Submit a repair booking which gets stored in Google Sheets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingInput"
+      responses:
+        "201":
+          description: Booking created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingConfirmation"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +65,60 @@ components:
           type: string
       required:
         - status
-
+    BookingInput:
+      type: object
+      required:
+        - fullName
+        - phone
+        - deviceType
+        - problemDescription
+        - preferredDate
+        - preferredTimeSlot
+        - address
+      properties:
+        fullName:
+          type: string
+          minLength: 2
+        phone:
+          type: string
+          minLength: 10
+        deviceType:
+          type: string
+          enum: [Desktop, Laptop, Other]
+        deviceName:
+          type: ["string", "null"]
+          description: Required when deviceType is Other
+        problemDescription:
+          type: string
+          minLength: 10
+        preferredDate:
+          type: string
+          description: ISO date string
+        preferredTimeSlot:
+          type: string
+          enum:
+            - "9:00 AM - 11:00 AM"
+            - "11:00 AM - 1:00 PM"
+            - "1:00 PM - 3:00 PM"
+            - "3:00 PM - 5:00 PM"
+            - "5:00 PM - 7:00 PM"
+        address:
+          type: string
+          minLength: 10
+    BookingConfirmation:
+      type: object
+      required:
+        - bookingId
+        - message
+      properties:
+        bookingId:
+          type: string
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string

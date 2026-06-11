@@ -1,0 +1,14 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "9ZXPxidPq74XDF_9xYVPC"
+uri = "file://artifacts/kvk-website/src/assets/images/hero-bg.png"
+type = "image"
+title = "luxury electronics lab hero"
+
+[[generated]]
+id = "gAYpoojgrQjqJOd01pqrB"
+uri = "file://artifacts/kvk-website/src/assets/images/booking-visual.png"
+type = "image"
+title = "premium repair visual"

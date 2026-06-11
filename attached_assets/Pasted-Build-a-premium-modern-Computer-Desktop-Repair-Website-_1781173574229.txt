@@ -1,0 +1,491 @@
+Build a premium modern Computer & Desktop Repair Website for a real-world client called KVK Technologies using Next.js.
+
+The website should feel like a combination of:
+
+* Apple.com
+* Linear
+* Stripe
+* Modern SaaS Landing Pages
+* Premium Electronics Service Websites
+
+The design must be:
+
+* Modern
+* Premium
+* Minimal
+* Elegant
+* Fast
+* Interactive
+* Mobile-first responsive
+* Visually rich
+* Smoothly animated
+
+IMPORTANT:
+This is a real-world MVP client project.
+
+Keep the architecture simple and maintainable.
+
+Do NOT implement authentication or authorization.
+
+Use Google Sheets as the booking management system.
+
+---
+
+## TECH STACK
+
+Frontend:
+
+* Next.js (Latest App Router)
+* Tailwind CSS
+* Framer Motion
+* React Icons
+
+Backend:
+
+* Next.js API Routes
+
+Data Storage:
+
+* Google Sheets API
+
+Deployment:
+
+* Vercel
+
+---
+
+## BUSINESS INFORMATION
+
+Business Name:
+KVK Technologies
+
+Logo:
+https://res.cloudinary.com/dkwllsxnd/image/upload/v1778738164/IMG-20260514-WA0000_x718vq.jpg
+
+Phone Number:
+9705551090
+
+Address:
+136 Flat Number
+Venkateshwara Colony Phase 2
+Hastinapuram
+Ranga Reddy
+500079
+
+---
+
+## DESIGN SYSTEM
+
+Typography:
+Use premium fonts such as:
+
+* Inter
+* Plus Jakarta Sans
+* Geist
+* SF Pro Display style
+
+Color Palette:
+
+Primary:
+
+* #2563EB
+* #1D4ED8
+
+Secondary:
+
+* #0F172A
+* #111827
+
+Accent:
+
+* #60A5FA
+* #93C5FD
+
+Neutral:
+
+* #F8FAFC
+* #E2E8F0
+* #CBD5E1
+
+The design should feel:
+
+* Premium
+* Trustworthy
+* Professional
+* Modern
+
+---
+
+## PREMIUM LOADER
+
+Create a custom premium loading experience.
+
+Loader should include:
+
+* Animated KVK logo
+* Smooth blur effects
+* Glow animation
+* Progress reveal
+* Framer Motion transitions
+
+Loader style inspiration:
+
+* Apple
+* Stripe
+* Linear
+
+The loader should appear:
+
+* On first page load
+* During route transitions
+* During form submission
+
+---
+
+## NAVBAR
+
+Create a premium sticky navbar.
+
+Features:
+
+* Glassmorphism
+* Blur background
+* Floating effect
+* Smooth transitions
+
+Navbar Items:
+
+* Home
+* Services
+* Reviews
+* Contact
+
+Behavior:
+
+* Active section underline
+* Smooth animated indicator
+* Scroll-aware highlighting
+
+---
+
+## ADVANCED SCROLL EXPERIENCE
+
+The page should not feel static.
+
+Implement advanced scroll animations using Framer Motion.
+
+As users scroll:
+
+Cards:
+
+* Slide from left
+* Slide from right
+* Fade into position
+* Scale slightly
+
+Images:
+
+* Parallax movement
+* Smooth reveal effects
+
+Sections:
+
+* Staggered animations
+* Fade-up transitions
+* Scale animations
+
+Statistics:
+
+* Counter animations
+
+Brands:
+
+* Smooth appearance animation
+
+Buttons:
+
+* Hover lift effect
+* Glow effect
+
+Overall feel:
+
+* Apple website
+* Premium storytelling experience
+
+Avoid:
+
+* Static content
+* Instant appearance
+* Basic fade-ins
+
+---
+
+## HOMEPAGE
+
+SECTION 1:
+Premium Hero
+
+Include:
+
+* High-quality repair workshop image
+* Sharp image quality
+* Professional gradient overlay
+* Large headline
+
+Example:
+
+"Expert Care for Your Premium Devices"
+
+Subheadline:
+Professional computer and desktop repair services with transparent pricing and expert technicians.
+
+Buttons:
+
+* Book Repair
+* Contact Us
+
+Add:
+
+* Floating cards
+* Animated blur elements
+* Background depth effects
+
+---
+
+SECTION 2:
+Statistics
+
+Display:
+
+5000+
+Happy Clients
+
+Certified
+Expert Technicians
+
+Free
+Diagnostics
+
+90 Days
+Warranty
+
+Requirements:
+
+* Floating glass cards
+* Proper spacing
+* Counter animation
+* No overlapping issues
+
+---
+
+SECTION 3:
+Top Brands We Repair
+
+Display actual logos:
+
+* Apple
+* Dell
+* Lenovo
+* HP
+* ASUS
+* Acer
+
+Requirements:
+
+* Premium cards
+* Hover animation
+* Brand logo visible
+* Soft shadows
+* Responsive layout
+
+---
+
+SECTION 4:
+Services
+
+Display cards for:
+
+* Desktop Repair
+* Laptop Repair
+* SSD Upgrade
+* RAM Upgrade
+* Virus Removal
+* Windows Installation
+* Data Recovery
+* Custom PC Build
+
+Each card:
+
+* Service image
+* Description
+* Starting price
+* Book button
+
+Hover Effects:
+
+* Image zoom
+* Card elevation
+* Glow border
+
+---
+
+SECTION 5:
+Customer Reviews
+
+Display:
+
+* Auto-moving review carousel
+* Infinite scrolling
+
+Requirements:
+
+* Customer avatar
+* Name
+* Rating
+* Review text
+
+Animation:
+
+* Smooth movement
+* No harsh edge fade
+* Premium card design
+
+Also add:
+
+Customer Satisfaction Metrics:
+
+* 4.9 Average Rating
+* 5000+ Repairs
+* 98% Satisfaction Rate
+
+---
+
+SECTION 6:
+Contact & Map
+
+Embed Google Map
+
+Show:
+
+* Phone Number
+* Address
+* Business Hours
+* Contact Form
+
+---
+
+## BOOKING PAGE
+
+Route:
+/book-slot
+
+Create a premium booking experience.
+
+Layout:
+
+Left:
+
+* Large repair image
+* Visual content
+
+Right:
+
+* Premium booking form
+
+Form Fields:
+
+* Full Name
+* Phone Number
+* Device Type
+* Problem Description
+* Preferred Date
+* Preferred Time Slot
+* Address
+
+If user selects:
+
+"Other"
+
+Show:
+
+* Additional Device Name Input
+
+Animation:
+
+* Smooth field reveal
+
+---
+
+## GOOGLE SHEETS INTEGRATION
+
+Do NOT use database.
+
+When user submits booking:
+
+Store in Google Sheets:
+
+Columns:
+
+* Booking ID
+* Name
+* Phone
+* Device Type
+* Device Name (if Other)
+* Problem
+* Date
+* Time Slot
+* Address
+* Created At
+
+After submission:
+
+Show:
+
+* Success Animation
+* Generated Booking ID
+* Confirmation Message
+
+---
+
+## MICRO INTERACTIONS
+
+Add:
+
+* Button hover animations
+* Card hover animations
+* Smooth image zoom
+* Scroll-triggered motion
+* Floating blur backgrounds
+* Animated gradients
+* Interactive cursor feedback
+
+---
+
+## FINAL EXPERIENCE
+
+The final website should feel like a premium Apple-inspired service platform.
+
+Users should immediately feel:
+
+* Trust
+* Quality
+* Professionalism
+* Modern Design
+* Smooth Interaction
+* Premium Experience
+
+Avoid:
+
+* Generic templates
+* Plain white sections
+* Basic animations
+* Empty layouts
+
+Focus on:
+
+* Motion Design
+* Visual Storytelling
+* Premium UI
+* Smooth UX
+* Modern Interactions
+* Elegant Layouts
