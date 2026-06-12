@@ -149,12 +149,12 @@ export default function BookSlot() {
   }
 
   return (
-    <div className="min-h-[100dvh] pt-20 flex bg-background">
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-8 lg:p-12 overflow-y-auto">
+    <div className="min-h-[100dvh] pt-20 flex flex-col lg:flex-row bg-background overflow-x-hidden">
+      <div className="w-full lg:w-1/2 flex items-start lg:items-center justify-center px-4 py-8 sm:px-8 sm:py-10 lg:p-12 overflow-y-auto">
         <div className="w-full max-w-xl">
-          <div className="mb-10">
-            <h1 className="text-4xl font-bold tracking-tight mb-2">Book Repair Slot</h1>
-            <p className="text-muted-foreground">Schedule a service with our expert technicians.</p>
+          <div className="mb-8">
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Book Repair Slot</h1>
+            <p className="text-muted-foreground text-sm sm:text-base">Schedule a service with our expert technicians.</p>
           </div>
 
           <Form {...form}>

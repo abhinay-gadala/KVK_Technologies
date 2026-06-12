@@ -1,0 +1,157 @@
+MOBILE RESPONSIVENESS & UI FIXES
+
+Do NOT redesign the website.
+Only fix and optimize the current implementation, especially for mobile devices.
+
+---
+
+1. MOBILE LAYOUT FIX
+
+---
+
+The current mobile layout is broken and several components are not properly aligned.
+
+Fix the following:
+
+* Every section should have proper horizontal padding.
+* Prevent any card or component from overflowing outside the screen.
+* Ensure all content fits perfectly within the viewport.
+* Remove horizontal scrolling completely.
+* Maintain equal spacing between cards and sections.
+* Improve vertical spacing for a cleaner layout.
+
+The mobile experience should feel polished and premium.
+
+---
+
+2. STATISTICS CARDS FIX
+
+---
+
+Current Issue:
+The "5000+", "Certified", "Free Diagnostics", and "90 Days Warranty" cards are not aligned correctly on mobile.
+
+Required:
+
+* Display cards in a clean 2×2 responsive grid.
+* Ensure all cards have equal width and height.
+* Keep consistent spacing between cards.
+* Center the content vertically and horizontally.
+* Prevent text from overflowing or being cut off.
+* Maintain premium glassmorphism styling.
+
+---
+
+3. TESTIMONIAL CAROUSEL FIX
+
+---
+
+Current Issue:
+The review cards are cropped on mobile and the carousel layout breaks.
+
+Required:
+
+* Show one full review card at a time on mobile.
+* Prevent cards from being clipped on the left or right.
+* Ensure text wraps correctly.
+* Maintain equal padding inside cards.
+* Smooth swipe and auto-scroll animations.
+* Keep the carousel fully responsive.
+
+---
+
+4. MOBILE ANIMATIONS
+
+---
+
+Currently there are almost no animations on mobile.
+
+Enable all animations for mobile devices while keeping performance optimized.
+
+Include:
+
+* Fade-in sections
+* Slide-up animations
+* Cards entering from left/right
+* Image reveal animations
+* Button hover/tap animations
+* Counter animations
+* Smooth staggered reveals
+
+Animations should trigger as the section enters the viewport.
+
+Do not disable Framer Motion animations on mobile.
+
+---
+
+5. SCROLL EXPERIENCE
+
+---
+
+Improve mobile scrolling.
+
+Add:
+
+* Smooth section reveal
+* Cards sliding into position
+* Stagger animations
+* Image parallax (lightweight)
+* Smooth easing
+
+Scrolling should feel similar to Apple's website while remaining performant.
+
+---
+
+6. GOOGLE MAP THEME
+
+---
+
+Current Issue:
+The embedded Google Map remains dark even in Light Mode.
+
+Fix:
+
+* In Light Mode, display the default/light Google Map theme.
+* In Dark Mode, display the dark-themed map.
+* Automatically switch based on the current website theme.
+* Ensure the map integrates visually with the page design.
+
+---
+
+7. GLOBAL RESPONSIVENESS
+
+---
+
+Review every page on:
+
+* 320px
+* 375px
+* 390px
+* 414px
+* Tablet
+* Desktop
+
+Fix:
+
+* Overflow
+* Cropped text
+* Broken spacing
+* Misaligned images
+* Uneven cards
+* Inconsistent typography
+
+---
+
+## FINAL GOAL
+
+The website should feel fully polished on mobile.
+
+Requirements:
+
+* No overflow
+* Perfect alignment
+* Smooth animations
+* Responsive cards
+* Responsive carousel
+* Theme-aware Google Maps
+* Premium Apple-inspired mobile experience
