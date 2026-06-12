@@ -1,0 +1,158 @@
+Enhance the existing application without changing the current architecture or rebuilding the project.
+
+## 1. Theme Enhancement
+
+The current neon cyan theme looks too bright and gives a gaming/cyberpunk appearance. Replace it with a more premium and professional design inspired by Apple, Linear, Stripe, and Vercel.
+
+### Color Palette
+
+Primary Blue:
+
+* #2563EB
+
+Hover Blue:
+
+* #1D4ED8
+
+Accent Blue:
+
+* #3B82F6
+
+Dark Background:
+
+* #020617
+
+Secondary Background:
+
+* #0F172A
+
+Light Background:
+
+* #F8FAFC
+
+Section Background:
+
+* #F1F5F9
+
+Primary Text:
+
+* #F8FAFC
+
+Secondary Text:
+
+* #94A3B8
+
+Border:
+
+* rgba(255,255,255,0.08)
+
+### Theme Changes
+
+* Remove bright neon glow from text and cards.
+* Use subtle blue shadows instead of glowing effects.
+* Keep white typography with elegant blue accents.
+* Use soft gradients and premium glassmorphism.
+* Make the overall UI feel clean, modern, trustworthy, and premium.
+
+## 2. Typography
+
+Replace the current typography with a premium font.
+
+Preferred fonts:
+
+* Geist
+* Inter
+* Plus Jakarta Sans
+
+Improve heading hierarchy, spacing, and readability.
+
+## 3. Emergency Repair Section
+
+Add a dedicated "Emergency Repair" section.
+
+Display:
+
+* Same Day Emergency Repair
+* Priority Support
+* Emergency Diagnosis
+* Dedicated Technician
+
+Include a prominent "Book Emergency Repair" button.
+
+The design should match the existing premium UI.
+
+## 4. Why Choose Us Section
+
+Add a dedicated "Why Choose Us" section with feature cards.
+
+Include:
+
+* Genuine Parts
+* Certified Engineers
+* Same Day Repair
+* Pickup & Drop
+* 90 Days Warranty
+* Free Technical Support
+
+Each feature should have:
+
+* Icon
+* Short description
+* Hover animation
+* Premium card design
+
+## 5. Before / After Section
+
+Add a visual comparison section.
+
+Example:
+
+Laptop Repair
+
+Before:
+
+* Slow Performance
+* Damaged Screen
+* Dust Build-up
+
+After:
+
+* Fast Performance
+* Repaired Display
+* Clean Internal Components
+
+Use clean comparison cards with modern styling.
+
+## 6. FAQ Section
+
+Add an FAQ section using expandable accordions.
+
+Questions:
+
+* How long does repair take?
+* Is diagnosis free?
+* Do you repair MacBooks?
+* Do you provide pickup & drop?
+* What warranty do you provide?
+* Can I track my repair?
+
+Use smooth open/close animations and keep the design consistent with the rest of the website.
+
+## 7. CTA Banner
+
+Before the footer, add a premium Call-to-Action section.
+
+Heading:
+Need Your Computer Repaired?
+
+Subheading:
+Book your repair today and let our certified technicians restore your device quickly and professionally.
+
+Buttons:
+
+* Book Repair
+* Call Now
+
+Use a premium blue gradient background with modern spacing and subtle glassmorphism to make this section stand out while remaining consistent with the overall theme.
+
+The new sections should integrate seamlessly with the existing design, maintain responsiveness, and preserve the premium Apple-inspired user experience.
