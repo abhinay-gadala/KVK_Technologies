@@ -47,3 +47,27 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# Dependencies
+node_modules
+
+# Next.js
+.next
+out
+
+# Logs
+*.log
+
+# Vercel
+.vercel
+
+# OS files
+.DS_Store
+Thumbs.db
