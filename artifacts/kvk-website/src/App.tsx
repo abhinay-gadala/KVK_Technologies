@@ -21,18 +21,24 @@ function Router() {
   );
 }
 
+import { LoaderProvider } from "@/components/layout/LoaderContext";
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Loader />
-          <Navbar />
-          <main className="flex-grow flex flex-col">
-            <Router />
-          </main>
-          <Footer />
-        </WouterRouter>
+        <LoaderProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <div className="noise" />
+            <div className="vignette" />
+            <Loader />
+            <Navbar />
+            <main className="flex-grow flex flex-col relative z-10">
+              <Router />
+            </main>
+            <Footer />
+          </WouterRouter>
+        </LoaderProvider>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

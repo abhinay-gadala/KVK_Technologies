@@ -22,22 +22,44 @@ import {
 } from "lucide-react";
 import heroBg from "@/assets/images/hero-bg.png";
 
+import { useLoader } from "@/components/layout/LoaderContext";
+
 /* ─── Animation Variants ──────────────────────────────────────── */
+const appleEase = [0.65, 0, 0.35, 1];
+
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 1.4, ease: appleEase } },
 };
 const fadeLeft = {
-  hidden: { opacity: 0, x: -28 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, x: -30 },
+  visible: { opacity: 1, x: 0, transition: { duration: 1.4, ease: appleEase } },
 };
 const fadeRight = {
-  hidden: { opacity: 0, x: 28 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, x: 30 },
+  visible: { opacity: 1, x: 0, transition: { duration: 1.4, ease: appleEase } },
 };
 const stagger = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+};
+
+const heroContainer = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+  }
+};
+
+const wordReveal = {
+  hidden: { y: "100%", opacity: 0, rotate: 2 },
+  visible: { y: "0%", opacity: 1, rotate: 0, transition: { duration: 1.2, ease: appleEase } }
+};
+
+const fadeScale = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 1.6, ease: appleEase } }
 };
 
 /* ─── CountUp ─────────────────────────────────────────────────── */
@@ -104,6 +126,7 @@ const faqs = [
 export default function Home() {
   const { toast } = useToast();
   const [darkMap, setDarkMap] = useState(true);
+  const { isLoaderDone } = useLoader();
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
@@ -125,116 +148,100 @@ export default function Home() {
     <div className="w-full overflow-x-hidden">
 
       {/* ── 1. Hero ───────────────────────────────────────────── */}
-      <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden pt-20">
-        <div className="absolute inset-0 z-0">
-          <img src={heroBg} alt="" className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/85 to-background" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(37,99,235,0.18),transparent)]" />
-        </div>
+      <section id="home" className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
+        <motion.div 
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={isLoaderDone ? { scale: 1, opacity: 1 } : { scale: 1.1, opacity: 0 }}
+          transition={{ duration: 2.4, ease: appleEase }}
+          className="absolute inset-0 z-0"
+        >
+          <div className="absolute inset-0 bg-background" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(255,255,255,0.03),transparent)]" />
+        </motion.div>
 
-        <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full"
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <span className="text-xs font-semibold text-primary tracking-wide uppercase">Premium Service Center</span>
-            </div>
+        <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+          {isLoaderDone && (
+            <motion.div
+              variants={heroContainer}
+              initial="hidden"
+              animate="visible"
+              className="w-full flex flex-col items-center"
+            >
+              <motion.div variants={fadeScale} className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-md mb-12">
+                <span className="w-1.5 h-1.5 rounded-full bg-white/50" />
+                <span className="text-xs font-medium text-white/70 tracking-widest uppercase">Premium Service Studio</span>
+              </motion.div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-[1.08]">
-              Expert Care for Your{" "}
-              <br className="hidden sm:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-primary to-blue-600">
-                Premium Devices
-              </span>
-            </h1>
+              <h1 className="text-5xl sm:text-7xl md:text-8xl font-light tracking-tighter mb-8 leading-[1.05] text-white flex flex-col items-center">
+                <div className="overflow-hidden pb-2"><motion.div variants={wordReveal}>We restore</motion.div></div>
+                <div className="overflow-hidden pb-4"><motion.div variants={wordReveal} className="font-bold">the future.</motion.div></div>
+              </h1>
 
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-10 max-w-xl mx-auto leading-relaxed">
-              Professional computer and desktop repair services with transparent pricing and expert technicians.
-            </p>
+              <motion.p variants={fadeScale} className="text-lg sm:text-xl md:text-2xl text-white/50 mb-14 max-w-2xl mx-auto leading-relaxed font-light">
+                Masterful computer and device restoration. No compromises. Just pure precision.
+              </motion.p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-sm sm:max-w-none mx-auto">
-              <Link href="/book-slot" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto h-12 px-8 text-base font-semibold bg-primary hover:bg-blue-600 shadow-[0_4px_24px_rgba(37,99,235,0.35)] hover:shadow-[0_4px_32px_rgba(37,99,235,0.5)] transition-all" data-testid="button-hero-book">
-                  Book Repair <ArrowRight className="ml-2 w-4 h-4" />
+              <motion.div variants={fadeScale} className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-sm sm:max-w-none mx-auto">
+                <Link href="/book-slot" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto h-14 px-10 text-sm tracking-widest uppercase font-semibold bg-white text-black hover:bg-white/90 transition-all rounded-none" data-testid="button-hero-book">
+                    Book Restoration <ArrowRight className="ml-3 w-4 h-4" />
+                  </Button>
+                </Link>
+                <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 px-10 text-sm tracking-widest uppercase font-medium border-white/10 text-white hover:bg-white/5 transition-all rounded-none" onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })} data-testid="button-hero-contact">
+                  Contact Studio
                 </Button>
-              </Link>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 text-base font-semibold border-white/10 hover:bg-white/5 backdrop-blur-sm" onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })} data-testid="button-hero-contact">
-                Contact Us
-              </Button>
-            </div>
-          </motion.div>
+              </motion.div>
+            </motion.div>
+          )}
         </div>
       </section>
 
       {/* ── 2. Stats ──────────────────────────────────────────── */}
-      <section className="relative z-20 -mt-12 sm:-mt-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pb-20">
-        <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      <section className="relative z-20 -mt-12 sm:-mt-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pb-20">
+        <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-white/10 border border-white/10">
           {[
             { value: 5000, suffix: "+", label: "Happy Clients", isNum: true },
             { staticText: "Certified", label: "Expert Technicians", isNum: false },
             { staticText: "Free", label: "Diagnostics", isNum: false },
             { value: 90, suffix: " Days", label: "Warranty", isNum: true },
           ].map((stat, i) => (
-            <motion.div key={i} variants={fadeUp} className="h-full">
-              <Card className="h-full bg-secondary/60 backdrop-blur-xl border-white/[0.06] shadow-[0_1px_24px_rgba(0,0,0,0.4)]">
-                <CardContent className="p-4 sm:p-6 text-center flex flex-col items-center justify-center min-h-[100px] sm:min-h-[118px]">
-                  <div className="text-2xl sm:text-3xl font-bold text-primary mb-1 leading-tight">
-                    {stat.isNum && stat.value ? <CountUp target={stat.value} suffix={stat.suffix} /> : stat.staticText}
-                  </div>
-                  <div className="text-xs sm:text-sm text-muted-foreground font-medium">{stat.label}</div>
-                </CardContent>
-              </Card>
+            <motion.div key={i} variants={fadeUp} className="h-full bg-background p-8 sm:p-12 text-center flex flex-col items-center justify-center">
+              <div className="text-3xl sm:text-5xl font-light text-white mb-2 tracking-tighter">
+                {stat.isNum && stat.value ? <CountUp target={stat.value} suffix={stat.suffix} /> : stat.staticText}
+              </div>
+              <div className="text-xs uppercase tracking-widest text-white/50 font-medium mt-2">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
       </section>
 
       {/* ── 3. Emergency Repair ───────────────────────────────── */}
-      <section className="py-16 sm:py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-blue-900/30 to-background pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_80%_at_50%_50%,rgba(37,99,235,0.12),transparent)] pointer-events-none" />
-
-        <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="text-center mb-10 sm:mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/15 border border-red-500/25 mb-5">
-              <Zap className="w-3.5 h-3.5 text-red-400" />
-              <span className="text-xs font-semibold text-red-400 tracking-wide uppercase">Emergency Service</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-3">Same Day Emergency Repair</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">Critical device failure? We handle urgent repairs with same-day turnaround and dedicated technician support.</p>
+      <section className="py-12 sm:py-20 relative overflow-hidden border-y border-white/5 bg-white/[0.01]">
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="text-center mb-16 sm:mb-20">
+            <h2 className="text-4xl sm:text-5xl font-light tracking-tighter mb-4">Urgent Restoration</h2>
+            <p className="text-white/50 max-w-xl mx-auto font-light text-lg">Critical failure? We handle emergency repairs with zero compromise on precision.</p>
           </motion.div>
 
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="grid grid-cols-1 md:grid-cols-4 gap-[1px] bg-white/5 mb-16 border border-white/5">
             {[
-              { icon: Zap, title: "Same Day Repair", desc: "Device back by end of day" },
-              { icon: Headphones, title: "Priority Support", desc: "Dedicated helpline access" },
-              { icon: Stethoscope, title: "Emergency Diagnosis", desc: "Instant assessment on arrival" },
-              { icon: UserCheck, title: "Dedicated Technician", desc: "Assigned expert for your repair" },
+              { icon: Zap, title: "Same Day", desc: "Device back by end of day" },
+              { icon: Headphones, title: "Priority", desc: "Dedicated studio access" },
+              { icon: Stethoscope, title: "Immediate", desc: "Instant triage on arrival" },
+              { icon: UserCheck, title: "Dedicated", desc: "Assigned master tech" },
             ].map((item, i) => (
-              <motion.div key={i} variants={fadeUp}>
-                <Card className="h-full text-center bg-white/[0.04] border-white/[0.07] backdrop-blur-sm hover:bg-white/[0.07] transition-colors">
-                  <CardContent className="p-4 sm:p-5 flex flex-col items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-red-500/15 border border-red-500/20 flex items-center justify-center">
-                      <item.icon className="w-5 h-5 text-red-400" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-sm sm:text-base mb-0.5">{item.title}</div>
-                      <div className="text-xs text-muted-foreground">{item.desc}</div>
-                    </div>
-                  </CardContent>
-                </Card>
+              <motion.div key={i} variants={fadeUp} className="bg-background p-8 flex flex-col items-center text-center group hover:bg-white/[0.02] transition-colors">
+                <item.icon className="w-6 h-6 text-white mb-6 opacity-60 group-hover:opacity-100 transition-opacity" strokeWidth={1} />
+                <div className="font-medium text-sm tracking-wide mb-2 uppercase">{item.title}</div>
+                <div className="text-xs text-white/40">{item.desc}</div>
               </motion.div>
             ))}
           </motion.div>
 
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="flex justify-center">
             <Link href="/book-slot">
-              <Button size="lg" className="h-12 px-8 text-base font-semibold bg-red-500 hover:bg-red-600 shadow-[0_4px_24px_rgba(239,68,68,0.35)] hover:shadow-[0_4px_32px_rgba(239,68,68,0.5)] transition-all" data-testid="button-emergency-book">
-                <Zap className="mr-2 w-4 h-4" /> Book Emergency Repair
+              <Button size="lg" className="h-14 px-10 text-sm tracking-widest uppercase font-semibold bg-white text-black hover:bg-white/90 rounded-none transition-all" data-testid="button-emergency-book">
+                Book Emergency Slot
               </Button>
             </Link>
           </motion.div>
@@ -242,7 +249,7 @@ export default function Home() {
       </section>
 
       {/* ── 4. Brands ─────────────────────────────────────────── */}
-      <section className="py-14 sm:py-20 border-y border-white/[0.05]">
+      <section className="py-10 sm:py-16 border-y border-white/[0.05]">
         <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2">Brands We Repair</h2>
@@ -269,31 +276,25 @@ export default function Home() {
       </section>
 
       {/* ── 5. Why Choose Us ──────────────────────────────────── */}
-      <section className="py-16 sm:py-24">
+      <section className="py-12 sm:py-20">
         <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-3">Why Choose Us</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">Everything you need from a trusted repair partner — in one place.</p>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="text-center mb-16 sm:mb-24">
+            <h2 className="text-4xl sm:text-5xl font-light tracking-tighter mb-4">The Standard</h2>
+            <p className="text-white/50 max-w-xl mx-auto text-lg font-light">Uncompromising quality in every aspect of our process.</p>
           </motion.div>
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
+          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[1px] bg-white/10 border border-white/10">
             {[
               { icon: Package, title: "Genuine Parts", desc: "We use only OEM and certified replacement parts, so your device performs exactly as intended." },
-              { icon: BadgeCheck, title: "Certified Engineers", desc: "Our technicians are trained and certified with years of hands-on experience across all brands." },
-              { icon: Timer, title: "Same Day Repair", desc: "Most standard repairs are completed within hours. Fast without compromising quality." },
-              { icon: Truck, title: "Pickup & Drop", desc: "Doorstep pickup and delivery across Hastinapuram and surrounding areas — no travel required." },
-              { icon: Shield, title: "90 Days Warranty", desc: "All repairs carry a 90-day warranty on both parts and labor, giving you complete peace of mind." },
-              { icon: LifeBuoy, title: "Free Technical Support", desc: "Post-repair support at no extra charge. We answer your questions even after the job is done." },
+              { icon: BadgeCheck, title: "Master Engineers", desc: "Our technicians are trained and certified with years of hands-on experience across all architectures." },
+              { icon: Timer, title: "Rapid Turnaround", desc: "Most standard restorations are completed within hours. Fast without compromising precision." },
+              { icon: Truck, title: "Studio Transport", desc: "Secure pickup and delivery across Hastinapuram and surrounding areas — zero friction." },
+              { icon: Shield, title: "90 Days Warranty", desc: "All restorations carry a 90-day warranty on both parts and labor, ensuring complete peace of mind." },
+              { icon: LifeBuoy, title: "Continuous Support", desc: "Post-restoration support at no extra charge. We stand by our work indefinitely." },
             ].map((item, i) => (
-              <motion.div key={i} variants={fadeUp} whileHover={{ y: -4, transition: { duration: 0.2 } }}>
-                <Card className="h-full group bg-secondary/30 border-white/[0.06] hover:border-primary/30 hover:bg-secondary/50 transition-all duration-300">
-                  <CardContent className="p-5 sm:p-6">
-                    <div className="w-10 h-10 rounded-xl bg-primary/15 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/25 transition-colors">
-                      <item.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <h3 className="font-semibold text-base sm:text-lg mb-1.5">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-                  </CardContent>
-                </Card>
+              <motion.div key={i} variants={fadeUp} className="bg-background p-10 sm:p-12 text-left group hover:bg-white/[0.02] transition-all">
+                <item.icon className="w-6 h-6 text-white mb-8 opacity-50 group-hover:opacity-100 transition-opacity" strokeWidth={1} />
+                <h3 className="font-medium text-sm uppercase tracking-widest mb-3">{item.title}</h3>
+                <p className="text-sm text-white/50 leading-relaxed font-light">{item.desc}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -301,168 +302,164 @@ export default function Home() {
       </section>
 
       {/* ── 6. Services ───────────────────────────────────────── */}
-      <section id="services" className="py-16 sm:py-24 bg-secondary/20 border-y border-white/[0.05]">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="mb-10 sm:mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-3">Our Services</h2>
-            <p className="text-lg sm:text-xl text-muted-foreground">Precision repairs for every issue.</p>
+      <section id="services" className="py-12 sm:py-20 border-y border-white/5">
+        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="mb-16 sm:mb-24 flex flex-col sm:flex-row justify-between items-end gap-6">
+            <div>
+              <h2 className="text-4xl sm:text-5xl font-light tracking-tighter mb-4">Our Services</h2>
+              <p className="text-lg text-white/50 font-light max-w-md">Comprehensive restoration protocols for every technical anomaly.</p>
+            </div>
+            <Link href="/book-slot" className="text-sm tracking-widest uppercase font-semibold text-white flex items-center gap-2 group/link border-b border-white/20 pb-1 hover:border-white transition-all">
+              View All Services <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+            </Link>
           </motion.div>
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          
+          <div className="flex flex-col border-t border-white/10">
             {services.map((service, i) => (
-              <motion.div key={i} variants={i % 2 === 0 ? fadeLeft : fadeRight} whileHover={{ y: -4, transition: { duration: 0.2 } }} className="h-full">
-                <Card className="h-full group bg-background/60 border-white/[0.06] hover:border-primary/35 hover:bg-secondary/50 transition-all duration-300 overflow-hidden relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/8 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <CardContent className="p-5 sm:p-6 relative z-10 flex flex-col h-full">
-                    <div className="w-10 h-10 rounded-xl bg-secondary border border-white/[0.07] flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:border-primary/30 transition-all">
-                      <service.icon className="w-5 h-5 text-primary" />
+              <motion.div key={i} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
+                <Link href="/book-slot" className="group block">
+                  <div className="py-8 sm:py-10 border-b border-white/10 flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-12 hover:bg-white/[0.02] transition-colors px-6 sm:px-4 sm:-mx-4 rounded-none">
+                    <div className="text-sm font-mono text-white/30 w-12 shrink-0">0{i + 1}</div>
+                    <div className="flex-1">
+                      <h3 className="text-xl sm:text-2xl font-light tracking-tight mb-2 group-hover:text-white transition-colors">{service.title}</h3>
+                      <p className="text-sm text-white/40 font-light max-w-xl">{service.desc}</p>
                     </div>
-                    <h3 className="text-base sm:text-lg font-semibold mb-1.5">{service.title}</h3>
-                    <p className="text-xs sm:text-sm text-muted-foreground flex-1 mb-4 leading-relaxed">{service.desc}</p>
-                    <div className="flex items-center justify-between pt-3 border-t border-white/[0.06]">
-                      <div className="text-sm">
-                        <span className="text-muted-foreground">From </span>
-                        <span className="font-bold text-foreground">₹{service.price}</span>
+                    <div className="flex items-center gap-8 justify-between sm:justify-end sm:w-48 shrink-0 mt-4 sm:mt-0">
+                      <div className="text-sm font-medium tracking-wide">₹{service.price}</div>
+                      <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                        <ArrowRight className="w-4 h-4 -rotate-45 group-hover:rotate-0 transition-transform duration-500 ease-out" />
                       </div>
-                      <Link href="/book-slot" className="text-sm font-semibold text-primary hover:text-blue-400 flex items-center gap-1 group/link" data-testid={`link-book-${i}`}>
-                        Book Now <ChevronRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
-                      </Link>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </Link>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* ── 7. Before / After ─────────────────────────────────── */}
-      <section className="py-16 sm:py-24">
-        <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-3">The KVK Transformation</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">See the difference our expert technicians make on every device.</p>
+      <section className="py-12 sm:py-20">
+        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="text-center mb-16 sm:mb-24">
+            <h2 className="text-4xl sm:text-5xl font-light tracking-tighter mb-4">The KVK Standard</h2>
+            <p className="text-white/50 max-w-xl mx-auto font-light text-lg">Observe the absolute contrast of our interventions.</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[1px] items-start bg-white/10 border border-white/10">
             {/* Before */}
-            <motion.div variants={fadeLeft} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
-              <Card className="bg-red-950/30 border-red-500/20">
-                <CardContent className="p-5 sm:p-6">
-                  <div className="flex items-center gap-2 mb-5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                    <span className="text-sm font-semibold text-red-400 uppercase tracking-wider">Before</span>
-                  </div>
-                  <ul className="space-y-3">
-                    {["Sluggish, unresponsive performance", "Cracked or damaged display screen", "Dust build-up causing overheating", "Random crashes and data loss risk", "Outdated, bloated operating system"].map((item, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500/70 mt-1.5 shrink-0" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+            <motion.div variants={fadeLeft} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="h-full">
+              <div className="bg-background h-full p-10 sm:p-12">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-1.5 h-1.5 bg-white/30" />
+                  <span className="text-xs font-semibold text-white/50 uppercase tracking-widest">Before</span>
+                </div>
+                <ul className="space-y-5">
+                  {["Sluggish, unresponsive performance", "Cracked or damaged display screen", "Dust build-up causing overheating", "Random crashes and data loss risk", "Outdated, bloated operating system"].map((item, i) => (
+                    <li key={i} className="flex items-start gap-4 text-sm text-white/40 font-light">
+                      <span className="w-px h-4 bg-white/20 mt-1 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </motion.div>
 
             {/* Arrow */}
-            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="flex items-center justify-center py-4 md:py-0">
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 rounded-2xl bg-primary/15 border border-primary/25 flex items-center justify-center">
-                  <ArrowRight className="w-7 h-7 text-primary md:block hidden" />
-                  <ArrowRight className="w-7 h-7 text-primary rotate-90 md:hidden" />
+            <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="h-full bg-background flex flex-col items-center justify-center py-12 md:py-0 border-y md:border-y-0 md:border-x border-white/10">
+              <div className="flex flex-col items-center gap-4 group">
+                <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center bg-white/[0.02]">
+                  <ArrowRight className="w-6 h-6 text-white md:block hidden opacity-50" strokeWidth={1} />
+                  <ArrowRight className="w-6 h-6 text-white rotate-90 md:hidden opacity-50" strokeWidth={1} />
                 </div>
-                <span className="text-xs font-semibold text-primary uppercase tracking-wider text-center">KVK Repair</span>
+                <span className="text-[10px] font-semibold text-white/30 uppercase tracking-[0.2em] text-center">Intervention</span>
               </div>
             </motion.div>
 
             {/* After */}
-            <motion.div variants={fadeRight} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
-              <Card className="bg-emerald-950/30 border-emerald-500/20">
-                <CardContent className="p-5 sm:p-6">
-                  <div className="flex items-center gap-2 mb-5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                    <span className="text-sm font-semibold text-emerald-400 uppercase tracking-wider">After</span>
-                  </div>
-                  <ul className="space-y-3">
-                    {["Lightning-fast, smooth performance", "Crystal-clear, repaired display", "Cleaned internals, optimal airflow", "Stable system with secured data", "Fresh OS with essential drivers"].map((item, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/70 mt-1.5 shrink-0" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+            <motion.div variants={fadeRight} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="h-full">
+              <div className="bg-background h-full p-10 sm:p-12">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-1.5 h-1.5 bg-white" />
+                  <span className="text-xs font-semibold text-white uppercase tracking-widest">After</span>
+                </div>
+                <ul className="space-y-5">
+                  {["Lightning-fast, smooth performance", "Crystal-clear, repaired display", "Cleaned internals, optimal airflow", "Stable system with secured data", "Fresh OS with essential drivers"].map((item, i) => (
+                    <li key={i} className="flex items-start gap-4 text-sm text-white/80 font-light">
+                      <span className="w-px h-4 bg-white mt-1 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* ── 8. Reviews ────────────────────────────────────────── */}
-      <section id="reviews" className="py-16 sm:py-24 bg-secondary/15 border-y border-white/[0.05]">
+      <section id="reviews" className="py-12 sm:py-20 border-y border-white/5">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="text-center mb-10 sm:mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Client Satisfaction</h2>
-            <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="text-center mb-16 sm:mb-24">
+            <h2 className="text-4xl sm:text-5xl font-light tracking-tighter mb-8">Client Satisfaction</h2>
+            <div className="flex flex-wrap justify-center gap-12 sm:gap-20">
               <div>
-                <div className="text-3xl sm:text-4xl font-bold text-primary mb-1">4.9</div>
-                <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider">Average Rating</div>
+                <div className="text-4xl sm:text-5xl font-light mb-2">4.9</div>
+                <div className="text-[10px] sm:text-xs text-white/50 uppercase tracking-[0.2em] font-medium">Average Rating</div>
               </div>
               <div>
-                <div className="text-3xl sm:text-4xl font-bold mb-1">5000+</div>
-                <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider">Repairs Completed</div>
+                <div className="text-4xl sm:text-5xl font-light mb-2">5000+</div>
+                <div className="text-[10px] sm:text-xs text-white/50 uppercase tracking-[0.2em] font-medium">Restorations</div>
               </div>
               <div>
-                <div className="text-3xl sm:text-4xl font-bold mb-1">98%</div>
-                <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider">Satisfaction Rate</div>
+                <div className="text-4xl sm:text-5xl font-light mb-2">98%</div>
+                <div className="text-[10px] sm:text-xs text-white/50 uppercase tracking-[0.2em] font-medium">Satisfaction</div>
               </div>
             </div>
           </motion.div>
         </div>
 
         <div className="relative w-full overflow-hidden">
-          <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-r from-secondary/20 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-l from-secondary/20 to-transparent z-10 pointer-events-none" />
-          <div className="flex gap-4 sm:gap-5 animate-[scroll_42s_linear_infinite] w-max hover:[animation-play-state:paused] px-4">
+          <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+          <div className="flex gap-4 sm:gap-6 animate-[scroll_50s_linear_infinite] w-max hover:[animation-play-state:paused] px-4">
             {[...reviews, ...reviews].map((review, i) => (
-              <Card key={i} className="w-[min(80vw,300px)] sm:w-[300px] md:w-[340px] shrink-0 bg-background/80 border-white/[0.07]">
-                <CardContent className="p-5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-primary/20 border border-primary/25 flex items-center justify-center font-bold text-primary text-sm shrink-0">
-                      {review.initials}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-sm">{review.name}</div>
-                      <div className="flex text-amber-400">
-                        {[...Array(review.rating)].map((_, j) => <Star key={j} className="fill-current w-3 h-3" />)}
-                      </div>
+              <div key={i} className="w-[min(85vw,360px)] shrink-0 bg-white/[0.02] border border-white/[0.05] p-8">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center font-mono text-white/80 text-xs shrink-0">
+                    {review.initials}
+                  </div>
+                  <div>
+                    <div className="font-medium text-sm tracking-wide">{review.name}</div>
+                    <div className="flex text-white mt-1 gap-0.5">
+                      {[...Array(review.rating)].map((_, j) => <Star key={j} className="fill-current w-3 h-3 opacity-80" />)}
                     </div>
                   </div>
-                  <p className="text-muted-foreground text-xs sm:text-sm italic leading-relaxed">"{review.text}"</p>
-                </CardContent>
-              </Card>
+                </div>
+                <p className="text-white/60 text-sm font-light leading-loose">"{review.text}"</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* ── 9. FAQ ────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-24">
-        <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-3">Frequently Asked Questions</h2>
-            <p className="text-muted-foreground">Everything you need to know before booking your repair.</p>
+      <section className="py-12 sm:py-20">
+        <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="text-center mb-16 sm:mb-20">
+            <h2 className="text-4xl sm:text-5xl font-light tracking-tighter mb-4">Inquiries</h2>
+            <p className="text-white/50 font-light">Clarity before execution.</p>
           </motion.div>
           <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
-            <Accordion type="single" collapsible className="space-y-3">
+            <Accordion type="single" collapsible className="space-y-0 border-t border-white/10">
               {faqs.map((faq, i) => (
                 <motion.div key={i} variants={fadeUp}>
-                  <AccordionItem value={`faq-${i}`} className="border border-white/[0.07] rounded-xl bg-secondary/30 px-1 overflow-hidden data-[state=open]:border-primary/25 data-[state=open]:bg-secondary/50 transition-colors">
-                    <AccordionTrigger className="px-4 py-4 text-sm sm:text-base font-semibold hover:no-underline hover:text-primary text-left [&[data-state=open]]:text-primary transition-colors">
+                  <AccordionItem value={`faq-${i}`} className="border-b border-white/10 px-0">
+                    <AccordionTrigger className="px-2 py-6 text-base sm:text-lg font-light tracking-wide hover:no-underline hover:text-white/70 text-left [&[data-state=open]]:text-white transition-colors">
                       {faq.q}
                     </AccordionTrigger>
-                    <AccordionContent className="px-4 pb-4">
-                      <p className="text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
+                    <AccordionContent className="px-2 pb-8">
+                      <p className="text-base text-white/50 font-light leading-relaxed max-w-3xl">{faq.a}</p>
                     </AccordionContent>
                   </AccordionItem>
                 </motion.div>
@@ -473,28 +470,26 @@ export default function Home() {
       </section>
 
       {/* ── 10. CTA Banner ────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-700 to-blue-900" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_100%,rgba(0,0,0,0.5),transparent)] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(255,255,255,0.06),transparent)] pointer-events-none" />
-
+      <section className="py-16 sm:py-24 relative overflow-hidden border-y border-white/10">
+        <div className="absolute inset-0 bg-white/[0.02]" />
+        
         <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">
-              Need Your Computer Repaired?
+            <h2 className="text-5xl sm:text-6xl md:text-7xl font-light tracking-tighter text-white mb-6 leading-tight">
+              Initiate Repair.
             </h2>
-            <p className="text-blue-100/80 text-base sm:text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-              Book your repair today and let our certified technicians restore your device quickly and professionally.
+            <p className="text-white/50 text-lg sm:text-xl mb-12 max-w-2xl mx-auto font-light">
+              Reserve your slot. Our master technicians are ready to restore your device to absolute perfection.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-sm sm:max-w-none mx-auto">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-sm sm:max-w-none mx-auto">
               <Link href="/book-slot" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto h-12 px-8 text-base font-semibold bg-white text-primary hover:bg-blue-50 shadow-[0_4px_24px_rgba(0,0,0,0.25)] transition-all" data-testid="button-cta-book">
-                  Book Repair <ArrowRight className="ml-2 w-4 h-4" />
+                <Button size="lg" className="w-full sm:w-auto h-14 px-12 text-sm tracking-widest uppercase font-semibold bg-white text-black hover:bg-white/90 rounded-none transition-all" data-testid="button-cta-book">
+                  Book Reservation
                 </Button>
               </Link>
               <a href="tel:9705551090" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 text-base font-semibold border-white/30 text-white hover:bg-white/10 backdrop-blur-sm" data-testid="button-cta-call">
-                  <Phone className="mr-2 w-4 h-4" /> Call Now
+                <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 px-12 text-sm tracking-widest uppercase font-medium border-white/20 text-white hover:bg-white/5 rounded-none transition-all" data-testid="button-cta-call">
+                  Call Studio
                 </Button>
               </a>
             </div>
@@ -503,52 +498,58 @@ export default function Home() {
       </section>
 
       {/* ── 11. Contact & Map ─────────────────────────────────── */}
-      <section id="contact" className="py-16 sm:py-24">
+      <section id="contact" className="py-12 sm:py-20">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
             <motion.div variants={fadeLeft} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Get in Touch</h2>
-              <p className="text-muted-foreground mb-8">Ready to fix your device? Drop us a message or visit our service center.</p>
-              <div className="space-y-5 mb-10">
+              <h2 className="text-4xl sm:text-5xl font-light tracking-tighter mb-4">Studio Contact</h2>
+              <p className="text-white/50 mb-12 font-light">Reach out for direct technical inquiries.</p>
+              
+              <div className="space-y-8 mb-16">
                 {[
-                  { icon: Phone, label: "Phone", value: "9705551090" },
-                  { icon: MapPin, label: "Address", value: "136 Flat Number, Venkateshwara Colony Phase 2, Hastinapuram, Ranga Reddy - 500079" },
-                  { icon: Clock, label: "Business Hours", value: "Mon–Sat: 9am – 7pm\nSun: 10am – 5pm" },
+                  { icon: Phone, label: "Direct Line", value: "9705551090" },
+                  { icon: MapPin, label: "Headquarters", value: "136 Flat Number, Venkateshwara Colony Phase 2,\nHastinapuram, Ranga Reddy - 500079" },
+                  { icon: Clock, label: "Operational Hours", value: "Mon–Sat: 9am – 7pm\nSun: 10am – 5pm" },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-primary/15 border border-primary/20 flex items-center justify-center shrink-0">
-                      <item.icon className="w-4.5 h-4.5 text-primary" />
+                  <div key={i} className="flex items-start gap-6">
+                    <div className="mt-1 opacity-50 shrink-0">
+                      <item.icon className="w-5 h-5 text-white" strokeWidth={1} />
                     </div>
                     <div>
-                      <div className="font-semibold text-sm mb-0.5">{item.label}</div>
-                      <div className="text-muted-foreground text-sm leading-relaxed whitespace-pre-line">{item.value}</div>
+                      <div className="font-medium text-xs tracking-widest uppercase mb-1">{item.label}</div>
+                      <div className="text-white/60 text-sm leading-relaxed whitespace-pre-line font-light">{item.value}</div>
                     </div>
                   </div>
                 ))}
               </div>
-              <form onSubmit={handleContactSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Input placeholder="Name" required className="bg-secondary/30 border-white/[0.07]" data-testid="input-contact-name" />
-                  <Input type="email" placeholder="Email" required className="bg-secondary/30 border-white/[0.07]" data-testid="input-contact-email" />
+
+              <form onSubmit={handleContactSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <Input placeholder="Name" required className="bg-transparent border-0 border-b border-white/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-white shadow-none font-light" data-testid="input-contact-name" />
+                  <Input type="email" placeholder="Email" required className="bg-transparent border-0 border-b border-white/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-white shadow-none font-light" data-testid="input-contact-email" />
                 </div>
-                <Textarea placeholder="How can we help?" rows={4} required className="bg-secondary/30 border-white/[0.07] resize-none" data-testid="input-contact-message" />
-                <Button type="submit" className="w-full bg-primary hover:bg-blue-600 shadow-[0_2px_16px_rgba(37,99,235,0.3)] transition-all" data-testid="button-submit-contact">
-                  Send Message
+                <Textarea placeholder="Inquiry details..." rows={1} required className="bg-transparent border-0 border-b border-white/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-white shadow-none font-light resize-none min-h-[40px] pt-2" data-testid="input-contact-message" />
+                <Button type="submit" className="w-full h-14 bg-white text-black hover:bg-white/90 transition-all uppercase tracking-widest text-xs font-bold rounded-none mt-4" data-testid="button-submit-contact">
+                  Transmit Request
                 </Button>
               </form>
             </motion.div>
 
-            <motion.div variants={fadeRight} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="rounded-2xl overflow-hidden border border-white/[0.07] h-[300px] sm:h-[420px] lg:h-full min-h-[300px]">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3808.571477755532!2d78.5447171!3d17.3361427!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcba266baee2e55%3A0xc3ec5c4d284a1e94!2sHastinapuram%2C%20Hyderabad%2C%20Telangana%20500070!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-                width="100%"
-                height="100%"
-                style={{ border: 0, filter: mapFilter, minHeight: "300px" }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="KVK Technologies Location"
-              />
+            <motion.div variants={fadeRight} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="h-[400px] sm:h-[500px] lg:h-full min-h-[400px] border border-white/10 p-2 bg-white/[0.02]">
+              <div className="w-full h-full relative">
+                <div className="absolute inset-0 bg-background mix-blend-color pointer-events-none z-10" />
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3808.571477755532!2d78.5447171!3d17.3361427!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcba266baee2e55%3A0xc3ec5c4d284a1e94!2sHastinapuram%2C%20Hyderabad%2C%20Telangana%20500070!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, filter: "grayscale(100%) contrast(120%) brightness(80%)", minHeight: "400px" }}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="KVK Technologies Location"
+                  className="relative z-0"
+                />
+              </div>
             </motion.div>
           </div>
         </div>
