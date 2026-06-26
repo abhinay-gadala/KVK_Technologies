@@ -125,7 +125,7 @@ export default function BookSlot() {
         <motion.div 
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] }}
+          transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] as [number, number, number, number] }}
           className="max-w-md w-full bg-background border border-white/10 p-12 text-center relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-white/[0.02]" />

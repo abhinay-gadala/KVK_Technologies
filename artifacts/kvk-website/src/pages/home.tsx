@@ -25,7 +25,7 @@ import heroBg from "@/assets/images/hero-bg.png";
 import { useLoader } from "@/components/layout/LoaderContext";
 
 /* ─── Animation Variants ──────────────────────────────────────── */
-const appleEase = [0.65, 0, 0.35, 1];
+const appleEase: [number, number, number, number] = [0.65, 0, 0.35, 1];
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
